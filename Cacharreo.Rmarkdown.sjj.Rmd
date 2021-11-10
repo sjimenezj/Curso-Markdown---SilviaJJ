@@ -1,0 +1,120 @@
+---
+title: "Prueba generación informe en pdf"
+author: "silvia jimenez jorge"
+date: "8/11/2021"
+lang: es
+bibliography: referencias.bib
+csl: bmj-open
+output: 
+  bookdown::pdf_document2: 
+    number_sections: false
+    toc: false
+    fig_caption: yes
+    includes:
+      in_header: latex_options.tex
+fontsize: 12pt
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[CO,CE]{Texto encabezado}
+- \fancyfoot[CO,CE]{Texto pie de página}
+- \pagenumbering{gobble}
+---
+
+\def\figurename{Figura}
+\def\tablename{Tabla}
+
+El texto se edita simplemente escribiendo/borrando...
+
+**BLOQUE INICIAL**: incluir *opciones* que quiero que aplique a todos los bloques
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+[Creación enlace](https://github.com/sjimenezj?tab=repositories)
+
+# Incluir línea horizontal
+***
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+# Para que código no salga en la pantalla, (... echo=FALSE)
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+![mi imagen](C:\Users\Clara Maria Rosso\Desktop\SILVI\OCIO\calendario2021\diciembre\IMG-20191228-WA0023)
+
+# Para inclusión de figuras usar esta sintaxis:
+
+```{r familia, fig.align = 'center', out.width = "50%", fig.cap='Familia'}
+knitr::include_graphics(here::here("C:/R/Curso-Markdown---SilviaJJ", "IMG-20191228-WA0023.jpg"))
+```
+
+# Generación de tablas
+```{r}
+knitr::kable(mtcars[1:5,])
+```
+
+# Paquete stargazer para generación de tablas
+
+```{r results='asis', echo = FALSE}
+stargazer::stargazer(mtcars[1:5,],
+summary = FALSE,
+header = FALSE,
+title = "tabla básica con stargazer")
+```
+
+```{r results='asis'}
+ejemplo <- lm(Petal.Width ~ Petal.Length,data = iris)
+stargazer::stargazer(ejemplo,
+header = FALSE,
+label = "tab:regresion1",
+type=ifelse(knitr::is_latex_output(),"latex","html"),
+title="tabla de regresión con stargazer")
+```
+
+```{r attr.source='.numberLines'}
+ejemplo <- lm(Petal.Width ~ Petal.Length,data = iris)
+modelsummary:: modelsummary(ejemplo)
+```
+
+# Inclusión de fórmulas
+
+\begin{equation}
+\bar{X} = \frac{\sum_{i=1}ˆn X_i}{n} \label{eq:media}
+\end{equation}
+
+# Inclusión de referencias bibliográficas
+
+en la figura \@ref(fig:familia) vemos una foto de familia y una ecuación en \@ref(eq:media)
+
+# Para tabla \@ref(tab:nombre)
+
+# Inclusión referencia externas
+# Creo un ".bib", abro fichero de texto en Rmarkdown (OPen>Text file) y lo guardo en la carpeta del proyecto marckdown como .bib
+referencia a @ggplot2 y a @jimenez2020assessing
+
+## References
+
+# Nota al pie, 
+# textoˆ[nota al pie]
+referenciaˆ[nota al pie @jimenez2020assessing]
+
